@@ -5,6 +5,7 @@
   "dependencies": [],
   "lifecycle": {
     "links": [
+      { "from": "CLAUDE.md", "to": "CLAUDE.md" },
       { "from": ".claude/settings.json", "to": ".claude/settings.json" },
       { "from": "claude/scripts", "to": ".claude/scripts" }
     ],

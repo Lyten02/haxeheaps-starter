@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Haxe/Heaps infra: AppBase/IGame/IModule, Claude hooks, settings, generic skills, project-template clones.",
   "dependencies": [],
+  "marketplace": {
+    "displayName": "Haxe/Heaps Starter Infrastructure"
+  },
   "lifecycle": {
     "links": [
       { "from": "CLAUDE.md", "to": "CLAUDE.md" },

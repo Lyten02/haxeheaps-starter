@@ -10,15 +10,15 @@
 - Entry flow is `src/Main.hx` -> `src/game/Game.hx` (root container for input, state switching, and global Domkit style).
 - States own their scene roots and are responsible for cleanup in `exit()`.
 - UI uses Domkit (`src/game/ui/HudView.hx`) with styling in `res/ui/style.css`.
-- The build system is Python-driven from root `build.py`, and writes generated HXML/build artifacts under `build/`.
+- The build system is Python-driven through `modules/gd-builder/build.py`, and writes generated HXML/build artifacts under `build/`.
 
 ## Build And Test
 - Primary commands (from workspace root):
-  - `python build.py build`
-  - `python build.py run web`
-  - `python build.py build web --release`
-  - `python build.py watch web`
-  - `python build.py test`
+  - `python modules/gd-builder/build.py build debug web`
+  - `python modules/gd-builder/build.py run debug web`
+  - `python modules/gd-builder/build.py build release web`
+  - `python modules/gd-builder/build.py watch debug web`
+  - `python modules/gd-builder/build.py test`
 - If `python` is unavailable, use `python3`.
 - Fast compile verification without producing output:
   - `haxe build/web_debug.hxml --no-output`

@@ -33,8 +33,8 @@
 
 ## Прогон
 
-- [ ] `python build.py test --ai` → `"ok": true` (или `"ok": false` с осмысленным `failing_lines` при red-стадии TDD).
-- [ ] Если тест для модуля — также `python build.py test --module=<mod> --ai` возвращает `ok: true`.
+- [ ] `python modules/gd-builder/build.py test --ai` → `"ok": true` (или `"ok": false` с осмысленным `failing_lines` при red-стадии TDD).
+- [ ] Если тест для модуля — также `python modules/gd-builder/build.py test --module=<mod> --ai` возвращает `ok: true`.
 - [ ] Общее число ассёртов в отчёте ≥ прежнего (новый тест не потёр старые).
 
 ## Регистрация

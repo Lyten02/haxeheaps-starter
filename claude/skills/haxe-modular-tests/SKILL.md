@@ -1,6 +1,6 @@
 ---
 name: haxe-modular-tests
-description: Write and fix utest specs for the Haxe/Heaps modular project (Node.js pure-logic tests). Use when user asks to add a test, write a spec, fix a failing test, increase coverage, verify a class, or diagnose test output. Do NOT use for Heaps runtime/UI tests or integration tests — this project only supports pure-logic unit tests under Node.js via `python build.py test`.
+description: Write and fix utest specs for the Haxe/Heaps modular project (Node.js pure-logic tests). Use when user asks to add a test, write a spec, fix a failing test, increase coverage, verify a class, or diagnose test output. Do NOT use for Heaps runtime/UI tests or integration tests — this project only supports pure-logic unit tests under Node.js via `python modules/gd-builder/build.py test`.
 ---
 
 # haxe-modular-tests
@@ -77,11 +77,11 @@ class Vec2Spec extends Test {
 Команды (из корня проекта):
 
 ```bash
-python build.py test                         # все тесты, читабельный отчёт utest
-python build.py test --module=<name>         # только тесты одного модуля
-python build.py test --project-only          # только тесты самого проекта
-python build.py test --ai                    # JSON одной строкой на stdout
-python build.py test --module=<name> --ai    # JSON по модулю
+python modules/gd-builder/build.py test                         # все тесты, читабельный отчёт utest
+python modules/gd-builder/build.py test --module=<name>         # только тесты одного модуля
+python modules/gd-builder/build.py test --project-only          # только тесты самого проекта
+python modules/gd-builder/build.py test --ai                    # JSON одной строкой на stdout
+python modules/gd-builder/build.py test --module=<name> --ai    # JSON по модулю
 ```
 
 Структура JSON от `--ai`:
@@ -100,7 +100,7 @@ python build.py test --module=<name> --ai    # JSON по модулю
 ```
 
 Алгоритм для Claude после правок:
-1. Запустить `python build.py test --ai` (или `--module=X --ai`).
+1. Запустить `python modules/gd-builder/build.py test --ai` (или `--module=X --ai`).
 2. Прочитать `ok`. `true` → готово.
 3. `false` → смотреть `failing_lines`, чинить причину (не сам тест, если только red-TDD стадия), повторять.
 

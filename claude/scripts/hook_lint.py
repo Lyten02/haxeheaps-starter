@@ -1,4 +1,4 @@
-"""Async PostToolUse hook: run `python build.py lint` when a .hx file changes.
+"""Async PostToolUse hook: run `python modules/gd-builder/build.py lint` when a .hx file changes.
 
 Runs in the background (hook declared with async:true). Stdout/stderr are not
 shown to the model; errors land in the harness log. Skips work when the edit

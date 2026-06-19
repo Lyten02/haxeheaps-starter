@@ -14,13 +14,14 @@ via full module path. Below and in the rest of this doc, **`build.py` is shortha
 for `modules/gd-builder/build.py`** — set a shell alias if you want.
 
 ```bash
-python modules/gd-builder/build.py build debug/release web   # compile web (debug or release)
-python modules/gd-builder/build.py test              # run utest suite
-python modules/gd-builder/build.py coverage          # c8 V8-coverage → logs/coverage/index.html
-python modules/gd-builder/build.py lint              # rules A–H + god-file check
-python modules/gd-builder/build.py run debug/release web           # launch in browser (debug or release)
-python modules/gd-builder/build.py watch debug/release web         # live reload (debug or release)
-haxe build/web_debug.hxml --no-output               # fast type check only
+python modules/gd-builder/build.py build debug web     # compile web debug
+python modules/gd-builder/build.py build release web   # compile web release
+python modules/gd-builder/build.py test                # run utest suite
+python modules/gd-builder/build.py coverage            # c8 V8-coverage → logs/coverage/index.html
+python modules/gd-builder/build.py lint                # rules A–H + god-file check
+python modules/gd-builder/build.py run debug web       # launch debug build in browser
+python modules/gd-builder/build.py watch debug web     # live reload
+haxe build/web_debug.hxml --no-output                  # fast type check only
 ```
 
 ## Architecture patterns
@@ -41,8 +42,8 @@ haxe build/web_debug.hxml --no-output               # fast type check only
 ## Rules
 
 1. **No god files.** Any `.hx` > 200 LOC needs decomposition. Before committing,
-   confirm no file exceeds the limit. Check with `python build.py lint` or
-   `tokei src/ --sort lines`.
+   confirm no file exceeds the limit. Check with
+   `python modules/gd-builder/build.py lint`.
 2. **One class per file.** Filename == class name. Sub-concerns live in
    siblings, not as inner classes in a mega-file.
 3. **MVP for UI, ECS for gameplay.** Never leak game logic into a View or a
@@ -52,12 +53,12 @@ haxe build/web_debug.hxml --no-output               # fast type check only
    in `res/**/*.json`, never in `.hx` code.
 5. **Tests.** Every class in `core/`, `ecs/`, `map/`, `systems/` has a spec in
    `test/`. Pure logic only — no Heaps deps in tests.
-   `python build.py test` must stay green.
+   `python modules/gd-builder/build.py test` must stay green.
 6. **Input is action-driven.** Never `hxd.Key.*` in game code — go through
    `GameAction` + `InputBindings.moveX/moveY/isDown/wasPressed`.
 7. **SDF font channel = `Alpha`** for `*_sdf`. Atlas has only ASCII Latin.
-8. **Always lint before handing back.** `python build.py lint` — runs type-check
-   and god-file detection. Must exit 0 before any commit.
+8. **Always lint before handing back.** `python modules/gd-builder/build.py lint`
+   runs anti-hallucination rules and god-file detection. Must exit 0 before any commit.
 
 ## Memory protocol
 
@@ -66,12 +67,13 @@ haxe build/web_debug.hxml --no-output               # fast type check only
 - **Check dependencies.** Use only libs in
   `build/profiles/main.json` (`heaps:git`, `domkit`,
   `deepnightLibs`, `utest` for tests).
-- **User runs QA.** Finish a task by describing reproducible steps
-  (`do A then B → expect C`), not by claiming it "works".
+- **Verify before handing back.** Run the targeted build/test/lint command when
+  possible and report the observed result. For UI runtime behavior, also give
+  reproducible manual QA steps (`do A then B → expect C`).
 
 ## Anti-hallucination checklist (enforced by `lint`)
 
-Lint rejects these patterns (`python build.py lint`, rules A–H):
+Lint rejects these patterns (`python modules/gd-builder/build.py lint`, rules A–H):
 
 - **A** `h3d.scene|prim|mat|anim|shader|pass` in `src/` — project is 2D (h2d).
   `h3d.Engine.*` is allowed (bootstrap).
@@ -90,7 +92,7 @@ Self-checks before commit:
 - Game state lives in ECS components. Never on `h2d.Object`.
 - JSON read through `typedef`, not raw `Dynamic`.
 - View receives data through `render(model)`; doesn't read the world itself.
-- Build/tests — only `python build.py *`, not `npm` / `cmake`.
+- Build/tests — only `python modules/gd-builder/build.py *`, not `npm` / `cmake`.
 
 ## God-file detection
 
